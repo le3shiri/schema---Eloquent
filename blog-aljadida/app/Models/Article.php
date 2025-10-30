@@ -26,6 +26,7 @@ class Article extends Model
 
     /**
      * Get the user that owns the article.
+     *
      */
     public function user(): BelongsTo
     {
@@ -34,10 +35,19 @@ class Article extends Model
 
     /**
      * The tags that belong to the article.
+     *
      */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
-    
+
+    /**
+     * Scope to get recent articles.
+     *
+     */
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('created_at', 'desc')->take(5);
+    }
 }
